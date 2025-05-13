@@ -1,96 +1,101 @@
 # Message App
 
-A real-time messaging application with social features built using the MERN stack (MongoDB, Express.js, React, Node.js).
+A real-time messaging application with email verification and user authentication.
 
 ## Features
 
-- User Authentication (Login/Register)
-- Real-time Follow System
-- Follow Request Notifications
-- Real-time Status Updates
+- User authentication (signup/login)
+- Email verification
+- Real-time messaging
+- User online status
 - Modern UI with Tailwind CSS
 
-## Project Structure
+## Tech Stack
 
-```
-.
-├── client/                 # React frontend
-│   ├── public/            # Static files
-│   └── src/               # Source files
-│       ├── components/    # React components
-│       └── contexts/      # Context providers
-└── server/                # Node.js backend
-    ├── config/           # Configuration files
-    ├── controllers/      # Route controllers
-    ├── middleware/       # Custom middleware
-    ├── models/          # Database models
-    ├── routes/          # API routes
-    └── utils/           # Utility functions
-```
+### Frontend
+
+- React
+- React Router
+- Tailwind CSS
+- Axios
+- React Hot Toast
+
+### Backend
+
+- Node.js
+- Express
+- MongoDB
+- Socket.IO
+- Nodemailer
+- JWT Authentication
 
 ## Setup Instructions
 
-### Backend Setup
+1. Clone the repository:
 
-1. Navigate to the server directory:
-
-   ```bash
-   cd server
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Create a .env file with the following variables:
-
-   ```
-   MONGODB_URI=your_mongodb_uri
-   JWT_SECRET=your_jwt_secret
-   ```
-
-4. Start the server:
-   ```bash
-   npm start
-   ```
-
-### Frontend Setup
-
-1. Navigate to the client directory:
-
-   ```bash
-   cd client
-   ```
+```bash
+git clone <repository-url>
+cd message-app
+```
 
 2. Install dependencies:
 
-   ```bash
-   npm install
-   ```
+```bash
+# Install server dependencies
+cd server
+npm install
 
-3. Start the development server:
-   ```bash
-   npm start
-   ```
+# Install client dependencies
+cd ../client
+npm install
+```
 
-## Technologies Used
+3. Create a `.env` file in the server directory with the following variables:
 
-- **Frontend:**
+```
+PORT=3002
+MONGODB_URI=mongodb://localhost:27017/message
+JWT_SECRET=your_jwt_secret_key
+EMAIL_USER=your_gmail@gmail.com
+EMAIL_PASS=your_app_specific_password
+```
 
-  - React.js
-  - Tailwind CSS
-  - Socket.IO Client
-  - Axios
-  - React Router DOM
+4. Set up Gmail for email verification:
 
-- **Backend:**
-  - Node.js
-  - Express.js
-  - MongoDB
-  - Socket.IO
-  - JWT Authentication
+   - Go to your Google Account settings
+   - Enable 2-Step Verification
+   - Generate an App Password for the application
+   - Use this password as EMAIL_PASS in your .env file
+
+5. Start the development servers:
+
+```bash
+# Start the backend server (from server directory)
+npm run dev
+
+# Start the frontend server (from client directory)
+npm start
+```
+
+The application will be available at:
+
+- Frontend: http://localhost:3000
+- Backend: http://localhost:3002
+
+## API Endpoints
+
+### Authentication
+
+- POST /api/auth/register - Register a new user
+- POST /api/auth/login - Login user
+- POST /api/auth/verify-email - Verify email with code
+- POST /api/auth/resend-verification - Resend verification email
+- GET /api/auth/me - Get current user
+- POST /api/auth/logout - Logout user
+
+### Users
+
+- GET /api/users - Get all users
 
 ## Contributing
 
@@ -99,3 +104,7 @@ A real-time messaging application with social features built using the MERN stac
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License.

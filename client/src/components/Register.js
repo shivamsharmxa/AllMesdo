@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -16,6 +17,9 @@ const Register = () => {
       await register(username, email, password);
     } catch (error) {
       console.error("Registration error:", error);
+      const errorMessage =
+        error.response?.data?.message || "Registration failed";
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -70,8 +74,9 @@ const Register = () => {
                 name="password"
                 type="password"
                 required
+                minLength={6}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                placeholder="Password (min 6 characters)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

@@ -39,11 +39,16 @@ export const AuthProvider = ({ children }) => {
         { email, password },
         { withCredentials: true }
       );
-      setUser(response.data.user);
+      setUser(response.data);
       navigate("/");
       toast.success("Successfully logged in!");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Login failed");
+      if (error.response?.data?.isVerified === false) {
+        navigate("/verify-email", { state: { email } });
+        toast.error("Please verify your email first");
+      } else {
+        toast.error(error.response?.data?.message || "Login failed");
+      }
       throw error;
     }
   };
@@ -55,11 +60,41 @@ export const AuthProvider = ({ children }) => {
         { username, email, password },
         { withCredentials: true }
       );
-      setUser(response.data.user);
-      navigate("/");
-      toast.success("Successfully registered!");
+      navigate("/verify-email", { state: { email } });
+      toast.success("Registration successful! Please verify your email.");
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration failed");
+      throw error;
+    }
+  };
+
+  const verifyEmail = async (email, code) => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/auth/verify-email`,
+        { email, code },
+        { withCredentials: true }
+      );
+      toast.success("Email verified successfully!");
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Email verification failed");
+      throw error;
+    }
+  };
+
+  const resendVerification = async (email) => {
+    try {
+      await axios.post(
+        `${API_BASE_URL}/auth/resend-verification`,
+        { email },
+        { withCredentials: true }
+      );
+      toast.success("Verification email sent!");
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to resend verification email"
+      );
       throw error;
     }
   };
@@ -84,6 +119,8 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    verifyEmail,
+    resendVerification,
   };
 
   return (

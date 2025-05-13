@@ -7,6 +7,16 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     avatar: { type: String, default: "" },
     online: { type: Boolean, default: false },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+    },
+    verificationTokenExpires: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
